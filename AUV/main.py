@@ -1,7 +1,7 @@
 # Import python custom libraries
 
 from modules.NP import NP
-
+from modules.MP import MP
 
 # Import python standard libraries
 import os
@@ -84,6 +84,8 @@ data = np.zeros(8)
 def map(x : float, in_min : float, in_max : float, out_min : float, out_max : float) -> float:
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+mp = MP()
+
 # Main loop
 while True:
     # Handle events
@@ -110,9 +112,12 @@ while True:
         data[0] = round(axis3, 2)
         data[1] = round(axis2, 2)
 
+    data = [data[0], data[1], data[2], data[3], data[4], data[5]]
+    data = mp.update(data)
+
     logger.info(f'Data - {data}')
 
-    str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},{data[6]},R'
+    str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},R'
 
     conn.send_string_as_bytes(str_data)
 

@@ -7,28 +7,43 @@ import sys
 import os
 
 global config
-with open('configs/MP.json', 'r') as f:
+with open('../configs/MP.json', 'r') as f:
     config = json.load(f)
 
-# Define a class for PID control
-# , kp=1.0, ki=0.0, kd=0.0, setpoint=0.0
-class PID:
-    def __init__(self):  # Initialize the PID controller with default parameters
-        self.kp = config['PID']['kp']  # Proportional gain
-        self.ki = config['PID']['ki']  # Integral gain
-        self.kd = config['PID']['kd']  # Derivative gain
-        self.setpoint = config['PID']['setpoint']  # Desired setpoint value
-        self.prev_error = 0.0  # Previous error value for derivative calculation
-        self.integral = 0.0  # Integral term
+class MP:
+    def __init__(self):
+        self.thruster_data = np.zeros(8)
 
-    def reset(self):  # Reset the PID controller
-        self.prev_error = 0.0  # Reset previous error
-        self.integral = 0.0  # Reset integral term
+        self.eight_thruster_config = [
+            {'position': [-1 * self.d, self.d, 0], 'orientation': [-np.cos(self.theta), np.sin(self.theta), 0]}, #! idk why it was multiplied by 1 ???
+            {'position': [self.d, self.d, 0], 'orientation': [np.cos(self.theta), np.sin(self.theta), 0]},
+            {'position': [self.d, -1 * self.d, 0], 'orientation': [np.cos(self.theta), -np.sin(self.theta), 0]},
+            {'position': [-1 * self.d, -1 * self.d, 0], 'orientation': [-np.cos(self.theta), np.sin(self.theta), 0]},
+            {'position': [-1 * self.d, 0, self.d], 'orientation': [0, 0, 1]},
+            {'position': [0, self.d, self.d], 'orientation': [0, 0, 1]},
+            {'position': [self.d, 0, self.d], 'orientation': [0, 0, 1]},
+            {'position': [0, -1 * self.d, self.d], 'orientation': [0, 0, 1]}
+        ]
 
-    def compute(self, current_value):  # Compute the PID output
-        error = self.setpoint - current_value  # Calculate the error
-        self.integral += error  # Update the integral term
-        derivative = error - self.prev_error  # Calculate the derivative term
-        output = (self.kp * error) + (self.ki * self.integral) + (self.kd * derivative)  # Calculate the PID output
-        self.prev_error = error  # Update the previous error
-        return output  # Return the PID output
+        self.thruster_matrix = self.create_thruster_matrix()
+
+    def create_thruster_matrix(self): #fix function naming into correct casing
+        thruster_configurations = self.eight_thruster_config
+        # Initialize mixing matrix
+        mixing_matrix = np.zeros((8, 6))
+
+        # Populate mixing matrix based on thruster configurations
+        for i, config in enumerate(thruster_configurations):
+            r = np.array(config['position'])
+            d = np.array(config['orientation'])
+            mixing_matrix[i, :3] = d
+            mixing_matrix[i, 3:] = np.cross(r, d)
+
+        # Log mixing matrix
+        self.logger.info(f"Mixing matrix: {mixing_matrix}")
+
+        return mixing_matrix
+
+    def update(self, data):
+        self.thruster_data = data * self.thruster_matrix
+        return self.thruster_data
