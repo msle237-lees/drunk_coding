@@ -7,7 +7,7 @@ import sys
 import os
 
 global config
-with open('../configs/MP.json', 'r') as f:
+with open('configs/MP.json', 'r') as f:
     config = json.load(f)
 
 class MP:
