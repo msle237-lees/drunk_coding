@@ -117,7 +117,7 @@ while True:
 
     logger.info(f'Data - {data}')
 
-    str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},R'
+    str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},{data[6]},{data[7]},R'
 
     conn.send_string_as_bytes(str_data)
 
