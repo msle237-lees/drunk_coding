@@ -63,12 +63,12 @@ while True:
         print("No joystick found. Retrying in 3 seconds.")
         pygame.time.wait(3000)
 
-connection = NP(socket.AF_INET, socket.SOCK_STREAM)
+conn = NP(socket.AF_INET, socket.SOCK_STREAM)
 # connection.bind(('localhost', 9999))
 # connection.listen(1)
 # conn, addr = connection.accept()
 # logger.info(f'Connection from {addr}')
-conn = connection.connect(('127.0.0.1', 9999))
+conn.connect(('127.0.0.1', 9999))
 
 # Use the first joystick
 joystick = pygame.joystick.Joystick(0)
