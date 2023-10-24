@@ -45,5 +45,6 @@ class MP:
         return mixing_matrix
 
     def update(self, data):
-        self.thruster_data = data * self.thruster_matrix
+        data = np.array(data).reshape(-1, 1)  # Convert the data to a column vector shape (6, 1)
+        self.thruster_data = np.dot(self.thruster_matrix, data).flatten()  # Perform matrix multiplication and flatten to original shape
         return self.thruster_data
