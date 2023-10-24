@@ -42,9 +42,6 @@ class MP:
             mixing_matrix[i, :3] = d
             mixing_matrix[i, 3:] = np.cross(r, d)
 
-        # Log mixing matrix
-        self.logger.info(f"Mixing matrix: {mixing_matrix}")
-
         return mixing_matrix
 
     def update(self, data):
