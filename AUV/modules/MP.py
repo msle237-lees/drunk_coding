@@ -12,6 +12,9 @@ with open('configs/MP.json', 'r') as f:
 
 class MP:
     def __init__(self):
+        self.d = 0.2
+        self.theta = np.pi / 4
+
         self.thruster_data = np.zeros(8)
 
         self.eight_thruster_config = [
