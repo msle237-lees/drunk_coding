@@ -79,9 +79,9 @@ for event in pygame.event.get():
         pygame.quit()
         quit()
 
-data = np.zeros(7)
+data = np.zeros(8)
 
-def map_range(x : float, in_min : float, in_max : float, out_min : float, out_max : float) -> float:
+def map(x : float, in_min : float, in_max : float, out_min : float, out_max : float) -> float:
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 # Main loop
@@ -111,7 +111,10 @@ while True:
         data[1] = round(axis2, 2)
 
     logger.info(f'Data - {data}')
-    conn.sendall(data)
+
+    str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},{data[6]},R'
+
+    conn.send_string_as_bytes(str_data)
 
     # Pause for a bit to make the output readable
     pygame.time.wait(10)

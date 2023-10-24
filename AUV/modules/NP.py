@@ -14,6 +14,11 @@ class NP(socket.socket):
         super().sendall(out)
         logging.debug("frame sent")
 
+    def send_string_as_bytes(self, string: str) -> None:
+        byte_array = string.encode('utf-8')
+        super().sendall(byte_array)
+        logging.debug(f"String '{string}' sent as bytes")
+
     def recv(self, bufsize: int = 1024) -> np.ndarray:  # type: ignore[override]
         length = None
         frame_buffer = bytearray()
@@ -62,3 +67,4 @@ class NP(socket.socket):
         out += f.read()
 
         return out
+
