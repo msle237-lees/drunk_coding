@@ -1,37 +1,36 @@
-from datetime import datetime
 import numpy as np
-import platform
-import logging
-import json
-import sys
-import os
 
-global config
-with open('configs/MP.json', 'r') as f:
-    config = json.load(f)
 
 class MP:
     def __init__(self):
-        self.d = 0.2
+        self.d1x, self.d1y, self.d1z = 0.241, 0.309, 0.03
+        self.d2x, self.d2y, self.d2z = 0.117, 0.296, 0.03
         self.theta = np.pi / 4
 
         self.thruster_data = np.zeros(8)
 
-        self.eight_thruster_config = [
-            {'position': [-1 * self.d, self.d, 0], 'orientation': [-np.cos(self.theta), np.sin(self.theta), 0]}, #! idk why it was multiplied by 1 ???
-            {'position': [self.d, self.d, 0], 'orientation': [np.cos(self.theta), np.sin(self.theta), 0]},
-            {'position': [self.d, -1 * self.d, 0], 'orientation': [np.cos(self.theta), -np.sin(self.theta), 0]},
-            {'position': [-1 * self.d, -1 * self.d, 0], 'orientation': [-np.cos(self.theta), np.sin(self.theta), 0]},
-            {'position': [-1 * self.d, 0, self.d], 'orientation': [0, 0, 1]},
-            {'position': [0, self.d, self.d], 'orientation': [0, 0, 1]},
-            {'position': [self.d, 0, self.d], 'orientation': [0, 0, 1]},
-            {'position': [0, -1 * self.d, self.d], 'orientation': [0, 0, 1]}
+        self.thruster_config = [
+            {'position': [self.d1x, self.d1y, self.d1z], 'orientation': [np.cos(self.theta), np.sin(self.theta), 0]},
+            {'position': [-self.d1x, self.d1y, self.d1z], 'orientation': [-np.cos(self.theta), np.sin(self.theta), 0]},
+            {'position': [self.d1x, -self.d1y, self.d1z], 'orientation': [np.cos(self.theta), -np.sin(self.theta), 0]},
+            {'position': [-self.d1x, -self.d1y, self.d1z], 'orientation': [-np.cos(self.theta), -np.sin(self.theta), 0]},
+            {'position': [self.d2x, self.d2y, self.d2z], 'orientation': [0, 0, 1]},
+            {'position': [-self.d2x, self.d2y, self.d2z], 'orientation': [0, 0, 1]},
+            {'position': [self.d2x, -self.d2y, self.d2z], 'orientation': [0, 0, 1]},
+            {'position': [-self.d2x, -self.d2y, self.d2z], 'orientation': [0, 0, 1]}
         ]
 
         self.thruster_matrix = self.create_thruster_matrix()
 
+    def get_highest_value_column(self):
+        """Get the column with the highest sum of absolute values."""
+        column_sums = np.sum(np.abs(self.thruster_matrix), axis=0)  # Sum along columns
+        max_column_idx = np.argmax(column_sums)  # Get index of max sum
+        max_column = self.thruster_matrix[:, max_column_idx]  # Extract that column
+        return max_column
+
     def create_thruster_matrix(self): #fix function naming into correct casing
-        thruster_configurations = self.eight_thruster_config
+        thruster_configurations = self.thruster_config
         # Initialize mixing matrix
         mixing_matrix = np.zeros((8, 6))
 
@@ -46,5 +45,6 @@ class MP:
 
     def update(self, data):
         data = np.array(data).reshape(-1, 1)  # Convert the data to a column vector shape (6, 1)
-        self.thruster_data = np.dot(self.thruster_matrix, data).flatten()  # Perform matrix multiplication and flatten to original shape
-        return self.thruster_data
+        self.thruster_data = np.dot(self.thruster_matrix, data)  # Multiply the mixing matrix with the data
+        self.out_data = self.get_highest_value_column()
+        return self.out_data

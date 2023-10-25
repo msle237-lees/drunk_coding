@@ -44,6 +44,17 @@ class NP(socket.socket):
                 logging.debug("frame received")
                 return frame
 
+    def recv_string_as_bytes(self, bufsize: int = 1024) -> str:
+        """
+        Receives string data in the form of a byte array and returns the string.
+        """
+        data = super().recv(bufsize)
+        if len(data) == 0:
+            return ""
+        decoded_string = data.decode('utf-8')
+        logging.debug(f"Received string as bytes: {decoded_string}")
+        return decoded_string
+
     def accept(self) -> tuple["NP", tuple[str, int] | tuple[Any, ...]]:
         fd, addr = super()._accept()  # type: ignore
         sock = NP(super().family, super().type, super().proto, fileno=fd)

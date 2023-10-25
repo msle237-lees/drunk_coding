@@ -69,6 +69,7 @@ conn = NP(socket.AF_INET, socket.SOCK_STREAM)
 # conn, addr = connection.accept()
 # logger.info(f'Connection from {addr}')
 conn.connect(('127.0.0.1', 9999))
+pygame.time.wait(1000)
 
 # Use the first joystick
 joystick = pygame.joystick.Joystick(0)
@@ -115,9 +116,8 @@ while True:
     data = [data[0], data[1], data[2], data[3], data[4], data[5]]
     data = mp.update(data)
 
-    logger.info(f'Data - {data}')
-
     str_data = f'{data[0]},{data[1]},{data[2]},{data[3]},{data[4]},{data[5]},{data[6]},{data[7]},R'
+    logger.info(f'Data - {data}')
 
     conn.send_string_as_bytes(str_data)
 
