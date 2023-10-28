@@ -26,7 +26,7 @@ class CM:
     - `data`: A numpy array that stores joystick data.
     """
     
-    def __init__(self, num_of_axis: int = 6):
+    def __init__(self, num_of_axis: int = 5):
         """
         Initialize the CM object and call the method to initialize the joystick.
         
@@ -34,7 +34,7 @@ class CM:
         - `num_of_axis`: Number of axes to initialize in the data array. Default is 6.
         """
         self.joystick = None
-        self.data = np.zeros(num_of_axis + 1)
+        self.data = np.zeros(num_of_axis)
         self.init_joystick()
 
     def init_joystick(self):
@@ -70,20 +70,19 @@ class CM:
 
         self.joystick.init()
 
-        axis2 = self.joystick.get_axis(2)
-        axis3 = self.joystick.get_axis(3)
-        axis5 = self.joystick.get_axis(5)
-
-        self.data[2] = round(self.joystick.get_axis(1), 2)
-        self.data[5] = round(self.joystick.get_axis(0), 2)
-        self.data[6] = round(self.joystick.get_axis(6), 2)
-
-        if axis5 < 0:
-            self.data[3] = round(axis2, 2)
-            self.data[4] = round(axis3, 2)
+        joy_data = [round(self.joystick.get_axis(i), 2) for i in range(self.joystick.get_numaxes())]
+        joy_data.append([self.joystick.get_button(i) for i in range(self.joystick.get_numbuttons())])
+        # Axis 0 = Left Joystick X
+        # Axis 1 = Left Joystick Y
+        # Axis 2 = Right Joystick X
+        # Axis 3 = Right Joystick Y
+        if joy_data[8][0]:
+            self.data[3] = joy_data[2]
         else:
-            self.data[0] = round(axis3, 2)
-            self.data[1] = round(axis2, 2)
+            self.data[1] = joy_data[2]
+        self.data[0] = joy_data[3]
+        self.data[2] = joy_data[1]
+        self.data[4] = joy_data[0]
 
         return self.data
     
@@ -91,7 +90,7 @@ class CM:
         """
         Print the current state of the `data` array.
         """
-        print(f'X: {self.data[0]} | Y: {self.data[1]} | Z: {self.data[2]} | Roll: {self.data[3]} | Pitch: {self.data[4]} | Yaw: {self.data[5]} | Claw: {self.data[6]}')
+        print(f'X: {self.data[0]} | Y: {self.data[1]} | Z: {self.data[2]} | Roll: {self.data[3]} | Yaw: {self.data[4]}')
 
 if __name__ == "__main__":
     cm = CM()

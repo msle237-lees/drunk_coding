@@ -79,9 +79,13 @@ def main():
     mp_process = Process(target=run_MP, args=(mp_child,))
     hi_process = Process(target=run_HI, args=(hi_child,))
 
+    logger.info('Processes started')
     cp_process.start()
+    logger.info('CP started')
     mp_process.start()
+    logger.info('MP started')
     hi_process.start()
+    logger.info('HI started')
 
     while True:
         # Receive data from the socket
