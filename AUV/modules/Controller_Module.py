@@ -14,9 +14,9 @@
 import pygame
 import numpy as np
 
-class CM:
+class Controller_Module:
     """
-    ## CM (Control Mapping) Class
+    ## CM (Control Module) Class
     
     The `CM` class is used to read input data from an RC flight controller 
     and store it as a numpy array.

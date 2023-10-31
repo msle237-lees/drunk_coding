@@ -1,6 +1,6 @@
 import numpy as np
 
-class MP:
+class Movement_Package:
     def __init__(self, simulation=False):
         """
         Initialize the MP class with given parameters.

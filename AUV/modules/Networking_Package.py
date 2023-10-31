@@ -8,9 +8,9 @@ from typing import Any
 import numpy as np
 
 
-class NP(socket.socket):
+class Networking_Package(socket.socket):
     """
-    ## NP class
+    ## Networking_Package class
     Inherits from `socket.socket` and provides specialized methods to send and receive numpy arrays and strings as bytes.
     """
 
@@ -98,17 +98,17 @@ class NP(socket.socket):
         logging.debug(f"Received string as bytes: {decoded_string}")
         return decoded_string
 
-    def accept(self) -> tuple["NP", tuple[str, int] | tuple[Any, ...]]:
+    def accept(self) -> tuple["Networking_Package", tuple[str, int] | tuple[Any, ...]]:
         """
         ### accept method
         Accept a connection. Overrides the base class method to return an object of this class instead of `socket.socket`.
 
         **Returns:**
-        - `tuple`: Tuple containing a new NP object and the address of the client.
+        - `tuple`: Tuple containing a new Networking_Package object and the address of the client.
         """
         super_socket = super()
         fd, addr = super_socket._accept()
-        sock = NP(super_socket.family, super_socket.type, super_socket.proto, fileno=fd)
+        sock = Networking_Package(super_socket.family, super_socket.type, super_socket.proto, fileno=fd)
 
         if socket.getdefaulttimeout() is None and super_socket.gettimeout():
             sock.setblocking(True)
