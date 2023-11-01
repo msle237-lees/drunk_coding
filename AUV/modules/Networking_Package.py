@@ -16,14 +16,8 @@ class Networking_Package(socket.socket):
 
     def sendall(self, frame: np.ndarray) -> None:
         """
-        ### sendall method
-        Send the numpy frame over the socket.
-        
-        **Arguments:**
-        - `frame (np.ndarray)`: The numpy array frame to send.
-
-        **Returns:**
-        - None
+        ## Send a numpy frame over the socket.
+        @param frame: The numpy array frame to send.
         """
         out = self.__pack_frame(frame)
         super_socket = super()
@@ -32,14 +26,8 @@ class Networking_Package(socket.socket):
 
     def send_string_as_bytes(self, string: str) -> None:
         """
-        ### send_string_as_bytes method
-        Send a string as a byte array over the socket.
-        
-        **Arguments:**
-        - `string (str)`: The string to send.
-
-        **Returns:**
-        - None
+        ## Send a string as a byte array over the socket.
+        @param string: The string to send.
         """
         byte_array = string.encode('utf-8')
         super().sendall(byte_array)
@@ -47,14 +35,9 @@ class Networking_Package(socket.socket):
 
     def recv(self, bufsize: int = 1024) -> np.ndarray:
         """
-        ### recv method
-        Receive a numpy frame over the socket.
-        
-        **Arguments:**
-        - `bufsize (int, optional)`: The size of the buffer to use for receiving data. Defaults to 1024.
-
-        **Returns:**
-        - `np.ndarray`: The received numpy array.
+        ## Receive a numpy frame over the socket.
+        @param bufsize: The size of the buffer to use for receiving data. Defaults to 1024.
+        @return: The received numpy array.
         """
         length = None
         frame_buffer = bytearray()
@@ -82,14 +65,9 @@ class Networking_Package(socket.socket):
 
     def recv_string_as_bytes(self, bufsize: int = 1024) -> str:
         """
-        ### recv_string_as_bytes method
-        Receive string data in the form of a byte array and returns the string.
-        
-        **Arguments:**
-        - `bufsize (int, optional)`: The size of the buffer to use for receiving data. Defaults to 1024.
-
-        **Returns:**
-        - `str`: The received string.
+        ## Receive string data in the form of a byte array and returns the string.
+        @param bufsize: The size of the buffer to use for receiving data. Defaults to 1024.
+        @return: The received string.
         """
         data = super().recv(bufsize)
         if len(data) == 0:
@@ -100,11 +78,9 @@ class Networking_Package(socket.socket):
 
     def accept(self) -> tuple["Networking_Package", tuple[str, int] | tuple[Any, ...]]:
         """
-        ### accept method
-        Accept a connection. Overrides the base class method to return an object of this class instead of `socket.socket`.
-
-        **Returns:**
-        - `tuple`: Tuple containing a new Networking_Package object and the address of the client.
+        ## Accept a connection.
+        Overrides the base class method to return an object of this class instead of `socket.socket`.
+        @return: Tuple containing a new Networking_Package object and the address of the client.
         """
         super_socket = super()
         fd, addr = super_socket._accept()
@@ -117,21 +93,16 @@ class Networking_Package(socket.socket):
     @staticmethod
     def __pack_frame(frame: np.ndarray) -> bytearray:
         """
-        ### __pack_frame static method
-        Packs a numpy frame into a byte array with a header indicating its size.
-        
-        **Arguments:**
-        - `frame (np.ndarray)`: The numpy array frame to pack.
-
-        **Returns:**
-        - `bytearray`: The packed byte array.
+        ## Pack a numpy frame into a byte array with a header indicating its size.
+        @param frame: The numpy array frame to pack.
+        @return: The packed byte array.
         """
         f = BytesIO()
         np.savez(f, frame=frame)
 
         packet_size = len(f.getvalue())
         header = f"{packet_size}:"
-        header_bytes = bytes(header.encode())  # prepend length of array
+        header_bytes = bytes(header.encode())
 
         out = bytearray(header_bytes)
         f.seek(0)

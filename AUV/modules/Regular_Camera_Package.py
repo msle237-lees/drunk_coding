@@ -12,7 +12,7 @@ class Camera_Package:
     def detect(self):
         pass
 
-    def get_Depth_Cloud(self):
+    def resize(self):
         pass
 
     def run(self):
