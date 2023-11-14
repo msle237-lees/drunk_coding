@@ -1,31 +1,47 @@
+# # CM Class with Pygame and NumPy
+#
+# This class, `CM`, demonstrates how to get data from an RC flight controller.
+# It uses `pygame` for the joystick interface and `NumPy` for data storage.
+# The class has methods for initializing the joystick and updating and printing the control data.
+#
+# ## Dependencies
+# - pygame
+# - numpy
+#
+# ## How to Run
+# - Initialize a `CM` object and call its `get_data` and `print` methods in a loop.
+
 import pygame
 import numpy as np
 
-class Controller_Module:
-    """ 
-    \brief The CM (Control Module) class is used to read input data from an RC flight controller and store it as a numpy array.
+class CM:
+    """
+    ## CM (Control Mapping) Class
     
-    \details This class utilizes `pygame` for the joystick interface and `NumPy` for data storage.
+    The `CM` class is used to read input data from an RC flight controller 
+    and store it as a numpy array.
     
-    \param joystick The pygame Joystick object.
-    \param data A numpy array that stores joystick data.
+    ### Attributes
+    - `joystick`: The pygame Joystick object.
+    - `data`: A numpy array that stores joystick data.
     """
     
-    def __init__(self, num_of_axis: int = 5):
-        """ 
-        \brief Initialize the CM object and call the method to initialize the joystick.
+    def __init__(self, num_of_axis: int = 6):
+        """
+        Initialize the CM object and call the method to initialize the joystick.
         
-        \param num_of_axis Number of axes to initialize in the data array. Default is 5.
+        ### Parameters
+        - `num_of_axis`: Number of axes to initialize in the data array. Default is 6.
         """
         self.joystick = None
         self.data = np.zeros(num_of_axis)
         self.init_joystick()
 
     def init_joystick(self):
-        """ 
-        \brief Initialize the pygame library and the joystick.
+        """
+        Initialize the pygame library and the joystick.
         
-        \details This method will keep retrying until a joystick is found.
+        This method will keep retrying until a joystick is found.
         """
         pygame.init()
         while True:
@@ -41,12 +57,11 @@ class Controller_Module:
         self.joystick.init()
 
     def get_data(self):
-        """ 
-        \brief Update the `data` array with the latest joystick values.
+        """
+        Update the `data` array with the latest joystick values.
         
-        \details This method reads the joystick values and updates the `data` numpy array.
-        
-        \return data The updated data array.
+        ### Returns
+        - `data`: The updated data array.
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -55,31 +70,31 @@ class Controller_Module:
 
         self.joystick.init()
 
-        # Collect joystick axis and button data
         joy_data = [round(self.joystick.get_axis(i), 2) for i in range(self.joystick.get_numaxes())]
         joy_data.append([self.joystick.get_button(i) for i in range(self.joystick.get_numbuttons())])
-        
-        # Update the data array based on joystick inputs
+        # Axis 0 = Left Joystick X
+        # Axis 1 = Left Joystick Y
+        # Axis 2 = Right Joystick X
+        # Axis 3 = Right Joystick Y
         if joy_data[8][0]:
-            self.data[3] = joy_data[2]  # Roll
+            self.data[3] = joy_data[2]
+            self.data[5] = joy_data[3]
         else:
-            self.data[1] = joy_data[2]  # Y
-        self.data[0] = joy_data[3]  # X
-        self.data[2] = joy_data[1]  # Z
-        self.data[4] = joy_data[0]  # Yaw
+            self.data[1] = joy_data[2]
+            self.data[0] = joy_data[3]
+        self.data[2] = joy_data[1]
+        self.data[4] = joy_data[0]
 
         return self.data
     
     def print(self):
-        """ 
-        \brief Print the current state of the `data` array.
-        
-        \details Outputs the current values in the `data` array.
         """
-        print(f'X: {self.data[0]} | Y: {self.data[1]} | Z: {self.data[2]} | Roll: {self.data[3]} | Yaw: {self.data[4]}')
+        @brief Print the current state of the `data` array.
+        """
+        print(f'X: {self.data[0]} | Y: {self.data[1]} | Z: {self.data[2]} | Roll: {self.data[3]} | Yaw: {self.data[4]} | Pitch: {self.data[5]}')
 
 if __name__ == "__main__":
-    cm = Controller_Module()
+    cm = CM()
     while True:
         cm.get_data()
         cm.print()

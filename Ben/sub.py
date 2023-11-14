@@ -1,7 +1,7 @@
-from modules.CP import CP
-from modules.MP import MP
-from modules.HI import HI
-from modules.NP import NP
+from Ben.modules.Camera_Package import CP
+from Ben.modules.Movement_Package import MP
+from Ben.modules.Hardware_Interface import HI
+from Ben.modules.Networking_Package import NP
 import socket
 import numpy as np
 import logging
