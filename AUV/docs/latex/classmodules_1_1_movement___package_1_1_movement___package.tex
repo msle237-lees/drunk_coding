@@ -3,7 +3,7 @@
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_a322f719f94ad2f22949c89d00e545973}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, bool \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_aedcb7c2ef3c53684fb9f205e2884d7c9}{simulation}}=False, int \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_ab47575ac2a388482b54487e8b31900d0}{num\+\_\+dof}}=6, int num\+\_\+motors=8)
+\mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_acfaa9ac46335ea62b89ac9449c061293}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, bool \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_a2ad91725590c757c7aa7613b1aca0d47}{standalone}}=False, bool \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_aedcb7c2ef3c53684fb9f205e2884d7c9}{simulation}}=False, int \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_ab47575ac2a388482b54487e8b31900d0}{num\+\_\+dof}}=6, int num\+\_\+motors=8)
 \item 
 list \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_a41b5cd2b68414628d6bddaf655c9dc14}{init\+\_\+\+PID}} (self, list Kp\+\_\+\+List, list Ki\+\_\+\+List, list Kd\+\_\+\+List, list i\+\_\+max\+\_\+\+List, list i\+\_\+min\+\_\+\+List, list output\+\_\+max\+\_\+\+List, list output\+\_\+min\+\_\+\+List)
 \item 
@@ -28,6 +28,8 @@ np.\+ndarray \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement__
 \item 
 \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_aa4efb9a9e6f288b1e32c77b6c1f366da}{sensor\+\_\+data}}
 \item 
+\mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_a2ad91725590c757c7aa7613b1aca0d47}{standalone}}
+\item 
 \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_af7330499af55415c96c5dea5b58cf551}{horizontal\+\_\+motor\+\_\+angles}}
 \item 
 \mbox{\hyperlink{classmodules_1_1_movement___package_1_1_movement___package_a5438f75c5d3484028b9eab24053fd52a}{horizontal\+\_\+motor\+\_\+distance}}
@@ -51,11 +53,11 @@ created for the AUV, which are determined by the placement parameter.
  
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{classmodules_1_1_movement___package_1_1_movement___package_a322f719f94ad2f22949c89d00e545973}\label{classmodules_1_1_movement___package_1_1_movement___package_a322f719f94ad2f22949c89d00e545973} 
+\Hypertarget{classmodules_1_1_movement___package_1_1_movement___package_acfaa9ac46335ea62b89ac9449c061293}\label{classmodules_1_1_movement___package_1_1_movement___package_acfaa9ac46335ea62b89ac9449c061293} 
 \index{modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}!\_\_init\_\_@{\_\_init\_\_}}
 \index{\_\_init\_\_@{\_\_init\_\_}!modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}}
 \doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
-{\footnotesize\ttfamily modules.\+Movement\+\_\+\+Package.\+Movement\+\_\+\+Package.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{bool }]{simulation = {\ttfamily False},  }\item[{int }]{num\+\_\+dof = {\ttfamily 6},  }\item[{int }]{num\+\_\+motors = {\ttfamily 8} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily modules.\+Movement\+\_\+\+Package.\+Movement\+\_\+\+Package.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{bool }]{standalone = {\ttfamily False},  }\item[{bool }]{simulation = {\ttfamily False},  }\item[{int }]{num\+\_\+dof = {\ttfamily 6},  }\item[{int }]{num\+\_\+motors = {\ttfamily 8} }\end{DoxyParamCaption})}
 
 \begin{DoxyVerb}\brief Initialize the Movement_Package (MP) class with given parameters.
 \param placement: Determines what motor placement should be active.
@@ -183,6 +185,12 @@ Apply the map_data function to the returned values and return the mapped values.
 \index{simulation@{simulation}!modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}}
 \doxysubsubsection{\texorpdfstring{simulation}{simulation}}
 {\footnotesize\ttfamily modules.\+Movement\+\_\+\+Package.\+Movement\+\_\+\+Package.\+simulation}
+
+\Hypertarget{classmodules_1_1_movement___package_1_1_movement___package_a2ad91725590c757c7aa7613b1aca0d47}\label{classmodules_1_1_movement___package_1_1_movement___package_a2ad91725590c757c7aa7613b1aca0d47} 
+\index{modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}!standalone@{standalone}}
+\index{standalone@{standalone}!modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}}
+\doxysubsubsection{\texorpdfstring{standalone}{standalone}}
+{\footnotesize\ttfamily modules.\+Movement\+\_\+\+Package.\+Movement\+\_\+\+Package.\+standalone}
 
 \Hypertarget{classmodules_1_1_movement___package_1_1_movement___package_ac0ab0cd452533bf9a2c4522665999bdf}\label{classmodules_1_1_movement___package_1_1_movement___package_ac0ab0cd452533bf9a2c4522665999bdf} 
 \index{modules.Movement\_Package.Movement\_Package@{modules.Movement\_Package.Movement\_Package}!thruster\_matrix@{thruster\_matrix}}

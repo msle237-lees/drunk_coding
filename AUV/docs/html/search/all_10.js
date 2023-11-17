@@ -11,9 +11,10 @@ var searchData=
   ['set_5fpoint_8',['set_point',['../classmodules_1_1_movement___package_1_1_p_i_d.html#a28faab79070a38d0adfb071f2d1f2b23',1,'modules::Movement_Package::PID']]],
   ['set_5ftarget_9',['set_target',['../classmodules_1_1_movement___package_1_1_p_i_d.html#aa35a397869734154d171434b37c7fb8c',1,'modules::Movement_Package::PID']]],
   ['simulation_10',['simulation',['../classmodules_1_1_movement___package_1_1_movement___package.html#aedcb7c2ef3c53684fb9f205e2884d7c9',1,'modules::Movement_Package::Movement_Package']]],
-  ['starting_5fbit_11',['starting_bit',['../classmodules_1_1_hardware___interface_1_1_hardware___interface.html#a2ff3adb9c0eb3b21ee864cab982102a1',1,'modules::Hardware_Interface::Hardware_Interface']]],
-  ['sub_12',['sub',['../namespace_sub.html',1,'Sub'],['../class_sub_1_1_sub.html',1,'Sub.Sub']]],
-  ['sub_2epy_13',['Sub.py',['../_sub_8py.html',1,'']]],
-  ['surface_14',['surface',['../namespace_surface.html',1,'Surface'],['../class_surface_1_1surface.html',1,'Surface.surface']]],
-  ['surface_2epy_15',['Surface.py',['../_surface_8py.html',1,'']]]
+  ['standalone_11',['standalone',['../classmodules_1_1_movement___package_1_1_movement___package.html#a2ad91725590c757c7aa7613b1aca0d47',1,'modules::Movement_Package::Movement_Package']]],
+  ['starting_5fbit_12',['starting_bit',['../classmodules_1_1_hardware___interface_1_1_hardware___interface.html#a2ff3adb9c0eb3b21ee864cab982102a1',1,'modules::Hardware_Interface::Hardware_Interface']]],
+  ['sub_13',['sub',['../namespace_sub.html',1,'Sub'],['../class_sub_1_1_sub.html',1,'Sub.Sub']]],
+  ['sub_2epy_14',['Sub.py',['../_sub_8py.html',1,'']]],
+  ['surface_15',['surface',['../namespace_surface.html',1,'Surface'],['../class_surface_1_1surface.html',1,'Surface.surface']]],
+  ['surface_2epy_16',['Surface.py',['../_surface_8py.html',1,'']]]
 ];
