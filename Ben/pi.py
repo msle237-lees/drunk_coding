@@ -101,6 +101,9 @@ class PI:
                     time.sleep(0.1)
                 
         except KeyboardInterrupt:
+            out_data = f'out/data-{timestamp}.csv'
+            self.data.to_csv(out_data)
+            logger.info(f'Data Stored in {out_data}')
             logger.info('Keyboard Interrupt')
             self.client.send(self.command_list[0])
             thread.join()
