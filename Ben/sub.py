@@ -9,6 +9,7 @@ import sys
 from datetime import datetime
 import json
 from multiprocessing import Process, Pipe
+import pandas as pd
 
 # Logging configuration
 # Create a logger object for the module
@@ -89,26 +90,46 @@ def main():
     print('HI started')
     logger.info('HI started')
 
-    while True:
-        # Do not recieve data only send to the surface
-        controllerData = [0, 0, 0, 0, 0]
+    i = 0
+    data = pd.DataFrame()
 
-        # Send the data to the thrusters after mapping
-        mp_parent.send(controllerData)
-        thruster_data = mp_parent.recv()
-        logger.info(f'Thruster data sent: {thruster_data}')
-        print(f'Thruster data sent: {thruster_data}')
+    try:
+        while True:
+            # Do not recieve data only send to the surface
+            controllerData_List = ['0.0,0.0,0.0,0.0,0.0\n',
+                            '1.0,0.0,0.0,0.0,0.0\n',
+                            '-1.0,0.0,0.0,0.0,0.0\n',
+                            '0.0,1.0,0.0,0.0,0.0\n',
+                            '0.0,-1.0,0.0,0.0,0.0\n',
+                            '0.0,0.0,1.0,0.0,0.0\n',
+                            '0.0,0.0,-1.0,0.0,0.0\n',
+                            '0.0,0.0,0.0,1.0,0.0\n',
+                            '0.0,0.0,0.0,-1.0,0.0\n',
+                            '0.0,0.0,0.0,0.0,1.0\n',
+                            '0.0,0.0,0.0,0.0,-1.0\n']
+            
+            controllerData = controllerData_List[i]
 
-        # Receive data from the sensors and send motor data
-        hi_parent.send(thruster_data)
-        sensorData = hi_parent.recv()
-        logger.info(f'Sensor data received: {sensorData}')
-        print(f'Sensor data received: {sensorData}')
+            # Send the data to the thrusters after mapping
+            mp_parent.send(controllerData)
+            thruster_data = mp_parent.recv()
+            logger.info(f'Thruster data sent: {thruster_data}')
+            print(f'Thruster data sent: {thruster_data}')
 
-        # Send sensorData and frame to the surface
-        data = [sensorData]
-        conn.sendall(data)
-        logger.info(f'Data sent to surface: {data}')
+            # Receive data from the sensors and send motor data
+            hi_parent.send(thruster_data)
+            sensorData = hi_parent.recv()
+            logger.info(f'Sensor data received: {sensorData}')
+            print(f'Sensor data received: {sensorData}')
+
+            # Send sensorData and frame to the surface
+            conn.send(sensorData)
+
+            logger.info(f'Data sent to surface: {data}')
+
+    except KeyboardInterrupt as e:
+        print('Keyboard interrupt detected')
+        logger.info('Keyboard interrupt detected')
 
     # Close the connection and end the program
     conn.close()
