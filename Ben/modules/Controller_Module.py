@@ -93,7 +93,7 @@ class Controller_Module:
         print(f'X: {self.data[0]} | Y: {self.data[1]} | Z: {self.data[2]} | Roll: {self.data[3]} | Yaw: {self.data[4]}')
 
 if __name__ == "__main__":
-    cm = CM()
+    cm = Controller_Module()
     while True:
         cm.get_data()
         cm.print()

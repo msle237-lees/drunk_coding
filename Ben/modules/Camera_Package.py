@@ -83,5 +83,5 @@ class Camera_Package:
         return cv2.resize(image, dim, interpolation=inter)
 
 if __name__ == "__main__":
-    cp = CP()
+    cp = Camera_Package()
     cp.run()

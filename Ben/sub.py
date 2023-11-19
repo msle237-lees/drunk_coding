@@ -1,7 +1,6 @@
-from Ben.modules.Camera_Package import CP
-from Ben.modules.Movement_Package import MP
-from Ben.modules.Hardware_Interface import HI
-from Ben.modules.Networking_Package import NP
+from modules.Movement_Package import MP
+from modules.Hardware_Interface import HI
+from modules.Networking_Package import NP
 import socket
 import numpy as np
 import logging
@@ -32,17 +31,6 @@ with open('configs/sub.json') as config_file:
     config = json.load(config_file)
 logger.info('Config file loaded')
 
-# Initialize and create functions for the modules running state. Using multiprocessing library to run them in parallel.
-def run_CP(conn : Pipe):
-    cp = CP()
-    while True:
-        frame = cp.get_frame()
-        frame = cp.resize_image(frame, width=cp.cam_send_width, height=cp.cam_send_height)
-        if frame is not None:
-            conn.send(frame)
-        else:
-            conn.send(None)
-
 def run_MP(conn : Pipe):
     mp = MP()
     while True:
@@ -63,7 +51,6 @@ def run_HI(conn : Pipe):
 def main():
     # Define and initialize variables
     sensorData = None
-    frame = None
     server = NP(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((config['ip'], 9999))
     logger.info('Socket bound and listening')
@@ -71,17 +58,13 @@ def main():
     conn, addr = server.accept()
     logger.info(f'Connection accepted from {addr}')
 
-    cp_parent, cp_child = Pipe()
     mp_parent, mp_child = Pipe()
     hi_parent, hi_child = Pipe()
 
-    cp_process = Process(target=run_CP, args=(cp_child,))
     mp_process = Process(target=run_MP, args=(mp_child,))
     hi_process = Process(target=run_HI, args=(hi_child,))
 
     logger.info('Processes started')
-    cp_process.start()
-    logger.info('CP started')
     mp_process.start()
     logger.info('MP started')
     hi_process.start()
@@ -104,25 +87,20 @@ def main():
 
         # Receive data from the sensors and send motor data
         hi_parent.send(thruster_data)
-        sensorData = cp_parent.recv()
+        sensorData = hi_parent.recv()
         logger.info(f'Sensor data received: {sensorData}')
 
-        # Receive camera frame
-        frame = cp_parent.recv()
-
         # Send sensorData and frame to the surface
-        data = [sensorData, frame]
+        data = [sensorData]
         conn.sendall(data)
 
     # Close the connection and end the program
     conn.close()
-    cp_process.join()
     mp_process.join()
     hi_process.join()
 
     logger.info('Connection closed')
     logger.info('Program ended')
-    cp_parent.close()
     mp_parent.close()
     hi_parent.close()
 

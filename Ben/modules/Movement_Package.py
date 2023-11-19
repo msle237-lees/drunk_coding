@@ -45,8 +45,14 @@ class MP:
         Update the thruster outputs based on desired vehicle movements.
         """
         data = np.array(data).reshape(-1, 1)  # Convert to column vector
-        self.thruster_data = np.dot(self.thruster_matrix, data).flatten()  # Matrix multiplication
-        return self.thruster_data
+        max_index = 0
+        last_max = 0.0
+        for i in range(len(data)):
+            if abs(data[i]) > last_max:
+                max_index = i
+        self.thruster_data = np.dot(self.thruster_matrix, data)  # Matrix multiplication
+        return_data = self.thruster_data[max_index]
+        return return_data
     
     def map_data(self):
         """
@@ -54,8 +60,8 @@ class MP:
         """
         in_min = -1
         in_max = 1
-        out_min = 1000
-        out_max = 2000
+        out_min = 1100
+        out_max = 1900
         out_data = np.zeros(len(self.thruster_data))
         for x in range(len(self.thruster_data)):
             out_data[x] = (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
