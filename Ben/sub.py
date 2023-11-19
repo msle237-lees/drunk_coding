@@ -126,7 +126,7 @@ def main():
             print(f'Sensor data received: {sensorData}')
 
             # Send sensorData and frame to the surface
-            conn.send(sensorData)
+            conn.send_string_as_bytes(sensorData)
 
             logger.info(f'Data sent to surface: {data}')
 
