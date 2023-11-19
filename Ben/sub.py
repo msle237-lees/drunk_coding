@@ -91,7 +91,8 @@ def main():
     logger.info('HI started')
 
     i = 0
-    data = pd.DataFrame()
+    columns = ['Controller Data', 'Thruster Data', 'Sensor Data']
+    data = pd.DataFrame(columns=columns)
 
     try:
         while True:
@@ -125,10 +126,18 @@ def main():
             logger.info(f'Sensor data received: {sensorData}')
             print(f'Sensor data received: {sensorData}')
 
+            # Append data to DataFrame
+            new_row = {
+                'Controller Data': controllerData.strip(),
+                'Thruster Data': thruster_data.tolist(),
+                'Sensor Data': sensorData
+            }
+            data = data.append(new_row, ignore_index=True)
+
             # Send sensorData and frame to the surface
             conn.send_string_as_bytes(sensorData)
+            logger.info(f'Data sent to surface: {sensorData}')
 
-            logger.info(f'Data sent to surface: {data}')
 
     except KeyboardInterrupt as e:
         print('Keyboard interrupt detected')
@@ -138,6 +147,10 @@ def main():
     conn.close()
     mp_process.join()
     hi_process.join()
+
+    out_data = 'out/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}-data.csv'
+    data.to_csv(out_data)
+    logger.info(f'Data Stored in {out_data}')
 
     logger.info('Connection closed')
     logger.info('Program ended')
