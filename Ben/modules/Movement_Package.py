@@ -71,7 +71,7 @@ class MP:
         """
         Print the current thruster outputs.
         """
-        print(f'Thruster outputs: {self.thruster_data}')
+        print('Thruster outputs: {}'.format(self.thruster_data))
 
     def run(self):
         """
