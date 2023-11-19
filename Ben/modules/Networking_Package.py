@@ -3,8 +3,7 @@
 from io import BytesIO
 import logging
 import socket
-from typing import Any  # Python 3.6 supports this basic typing
-
+from typing import Tuple, Union, Any
 import numpy as np
 
 class NP(socket.socket):
@@ -68,7 +67,7 @@ class NP(socket.socket):
         logging.debug("Received string as bytes: {}".format(decoded_string))
         return decoded_string
 
-    def accept(self) -> tuple['NP', tuple[str, int] | tuple[Any, ...]]:
+    def accept(self) -> Tuple['NP', Union[Tuple[str, int], Tuple[Any, ...]]]:
         """
         accept method documentation.
         """
