@@ -92,6 +92,8 @@ def main():
     while True:
         # Receive data from the socket
         controllerData = conn.recv_string_as_bytes()
+        print(f'Controller data received: {controllerData}')
+        logger.info(f'Controller data received: {controllerData}')
         if controllerData == 'q':
             break
 
