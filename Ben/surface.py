@@ -1,5 +1,5 @@
 from modules.Networking_Package import NP
-from modules.Controller_Module import Controller
+from modules.Controller_Module import Controller_Module
 from datetime import datetime
 
 import logging
@@ -36,7 +36,7 @@ class surface:
         self.server.listen(5)
         self.conn, self.addr = self.server.accept()
 
-        self.controller = Controller()
+        self.controller = Controller_Module()
 
     def run(self):
         while True:
