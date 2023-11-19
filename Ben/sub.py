@@ -90,17 +90,8 @@ def main():
     logger.info('HI started')
 
     while True:
-        # Receive data from the socket
-        controllerData = conn.recv_string_as_bytes()
-        print(f'Controller data received: {controllerData}')
-        logger.info(f'Controller data received: {controllerData}')
-        if controllerData == 'q':
-            break
-
-        # Parse the data into a numpy array
-        controllerData = np.array(controllerData.split(',')).astype(np.float)
-        logger.info(f'Controller data received: {controllerData}')
-        print(f'Controller data received: {controllerData}')
+        # Do not recieve data only send to the surface
+        controllerData = [0, 0, 0, 0, 0]
 
         # Send the data to the thrusters after mapping
         mp_parent.send(controllerData)
