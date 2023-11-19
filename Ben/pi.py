@@ -35,6 +35,7 @@ class PI:
             self.client = NP(socket.AF_INET, socket.SOCK_STREAM)
             self.client.connect((config['ip'], 9999)) # change the ip to the actual ip of the TX2
             logger.info('Connected to TX2')
+            print('Connected to TX2')
             
         else: # Connect to the TX2 and the controller
             self.client = NP(socket.AF_INET, socket.SOCK_STREAM)
@@ -42,6 +43,7 @@ class PI:
             self.controller = NP(socket.AF_INET, socket.SOCK_STREAM)
             self.controller.connect((config['ip-surface'], 9998))
             logger.info('Connected to TX2 and Controller')
+            print('Connected to TX2 and Controller')
         
         self.command_list = ['0.0,0.0,0.0,0.0,0.0', 
                              '1.0,0.0,0.0,0.0,0.0',
