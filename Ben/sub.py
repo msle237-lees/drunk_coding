@@ -53,9 +53,11 @@ def main():
     sensorData = None
     server = NP(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((config['ip'], 9999))
+    print('Socket bound and listening')
     logger.info('Socket bound and listening')
     server.listen(5)
     conn, addr = server.accept()
+    print(f'Connection accepted from {addr}')
     logger.info(f'Connection accepted from {addr}')
 
     mp_parent, mp_child = Pipe()
@@ -64,10 +66,13 @@ def main():
     mp_process = Process(target=run_MP, args=(mp_child,))
     hi_process = Process(target=run_HI, args=(hi_child,))
 
+    print('Processes starting')
     logger.info('Processes started')
     mp_process.start()
+    print('MP started')
     logger.info('MP started')
     hi_process.start()
+    print('HI started')
     logger.info('HI started')
 
     while True:
@@ -79,16 +84,19 @@ def main():
         # Parse the data into a numpy array
         controllerData = np.array(controllerData.split(',')).astype(np.float)
         logger.info(f'Controller data received: {controllerData}')
+        print(f'Controller data received: {controllerData}')
 
         # Send the data to the thrusters after mapping
         mp_parent.send(controllerData)
         thruster_data = mp_parent.recv()
         logger.info(f'Thruster data sent: {thruster_data}')
+        print(f'Thruster data sent: {thruster_data}')
 
         # Receive data from the sensors and send motor data
         hi_parent.send(thruster_data)
         sensorData = hi_parent.recv()
         logger.info(f'Sensor data received: {sensorData}')
+        print(f'Sensor data received: {sensorData}')
 
         # Send sensorData and frame to the surface
         data = [sensorData]
@@ -101,6 +109,8 @@ def main():
 
     logger.info('Connection closed')
     logger.info('Program ended')
+    print('Connection closed')
+    print('Program ended')
     mp_parent.close()
     hi_parent.close()
 
