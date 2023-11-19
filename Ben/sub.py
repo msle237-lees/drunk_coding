@@ -110,8 +110,11 @@ def main():
             
             controllerData = controllerData_List[i]
 
+            # Convert the string to a numpy array of floats
+            numeric_data = np.array(controllerData.strip().split(','), dtype=float)
+
             # Send the data to the thrusters after mapping
-            mp_parent.send(controllerData)
+            mp_parent.send(numeric_data)
             thruster_data = mp_parent.recv()
             logger.info(f'Thruster data sent: {thruster_data}')
             print(f'Thruster data sent: {thruster_data}')
