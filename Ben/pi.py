@@ -89,6 +89,7 @@ class PI:
                     self.client.send(data)
                     time.sleep(0.1)
                 data.append([self.client.recv_string_as_bytes().split(',')])
+                print(data)
         except KeyboardInterrupt:
             logger.info('Keyboard Interrupt')
             self.client.send(self.command_list[0])

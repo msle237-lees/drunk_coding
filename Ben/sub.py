@@ -108,6 +108,7 @@ def main():
         # Send sensorData and frame to the surface
         data = [sensorData]
         conn.sendall(data)
+        logger.info(f'Data sent to surface: {data}')
 
     # Close the connection and end the program
     conn.close()
