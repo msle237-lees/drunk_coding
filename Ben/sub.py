@@ -132,7 +132,6 @@ def main():
                 'Thruster Data': thruster_data.tolist(),
                 'Sensor Data': sensorData
             }
-            data = data.append(new_row, ignore_index=True)
 
             # Send sensorData and frame to the surface
             conn.send_string_as_bytes(sensorData)
@@ -147,10 +146,6 @@ def main():
     conn.close()
     mp_process.join()
     hi_process.join()
-
-    out_data = 'out/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}-data.csv'
-    data.to_csv(out_data)
-    logger.info(f'Data Stored in {out_data}')
 
     logger.info('Connection closed')
     logger.info('Program ended')

@@ -4,6 +4,8 @@ import logging
 import socket
 import time
 import json
+import threading
+import pandas as pd
 
 # Logging configuration
 # Create a logger object for the module
@@ -30,6 +32,7 @@ logger.info('Config file loaded')
 class PI:
     def __init__(self, internal : bool = True):
         self.internal = internal
+        self.data = pd.DataFrame(columns=['time', 'x', 'y', 'z', 'roll', 'pitch', 'yaw', 'Sensor_1', 'Sensor_2', 'Sensor_3'])
         
         if internal: # Connect to the TX2
             self.client = NP(socket.AF_INET, socket.SOCK_STREAM)
@@ -57,8 +60,16 @@ class PI:
                              '0.0,0.0,0.0,0.0,1.0\n',
                              '0.0,0.0,0.0,0.0,-1.0\n']
 
+    def seperate_thread(self):
+        while True:
+            data = [self.client.recv_string_as_bytes().split(',')]
+            self.data.append(data, ignore_index=True)
+            print(data)
+            time.sleep(0.1)
+
     def run(self):
-        data = []
+        thread = threading.Thread(target=self.seperate_thread)
+        thread.start()
         try:
             auto = False
             choice = input('Do you want to control the sub? (y/n)')
@@ -88,11 +99,11 @@ class PI:
                         break
                     self.client.send(data)
                     time.sleep(0.1)
-                data.append([self.client.recv_string_as_bytes().split(',')])
-                print(data)
+                
         except KeyboardInterrupt:
             logger.info('Keyboard Interrupt')
             self.client.send(self.command_list[0])
+            thread.join()
             exit()
 
 if __name__ == '__main__':
