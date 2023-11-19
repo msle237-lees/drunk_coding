@@ -68,19 +68,19 @@ class PI:
                 auto = True
             while True:
                 if auto:
-                    self.client.send(self.command_list[0]) # Send the stop command
+                    self.client.send_string_as_bytes(self.command_list[0]) # Send the stop command
                     time.sleep(1)
-                    self.client.send(self.command_list[1]) # Send the forward command
+                    self.client.send_string_as_bytes(self.command_list[1]) # Send the forward command
                     time.sleep(5)
-                    self.client.send(self.command_list[2]) # Send the backward command
+                    self.client.send_string_as_bytes(self.command_list[2]) # Send the backward command
                     time.sleep(10)
-                    self.client.send(self.command_list[1]) # Send the forward command
+                    self.client.send_string_as_bytes(self.command_list[1]) # Send the forward command
                     time.sleep(5)
-                    self.client.send(self.command_list[3]) # Send the right command
+                    self.client.send_string_as_bytes(self.command_list[3]) # Send the right command
                     time.sleep(5)
-                    self.client.send(self.command_list[4]) # Send the left command
+                    self.client.send_string_as_bytes(self.command_list[4]) # Send the left command
                     time.sleep(10)
-                    self.client.send(self.command_list[3]) # Send the right command
+                    self.client.send_string_as_bytes(self.command_list[3]) # Send the right command
                     time.sleep(5)
                 else:
                     data = self.controller.recv_string_as_bytes()
