@@ -28,7 +28,7 @@ logger.info('Config file loaded')
 
 # Create the PI Class that allows for control of the sub with either internal controls or external controls
 class PI:
-    def __init__(self, internal : bool = False):
+    def __init__(self, internal : bool = True):
         self.internal = internal
         
         if internal: # Connect to the TX2
