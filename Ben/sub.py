@@ -31,6 +31,19 @@ with open('configs/sub.json') as config_file:
     config = json.load(config_file)
 logger.info('Config file loaded')
 
+def array_to_str(arr):
+    """
+    Convert a numpy array to a string representation.
+
+    Parameters:
+    arr (np.ndarray): The numpy array to be converted.
+
+    Returns:
+    str: String representation of the numpy array.
+    """
+    return np.array2string(arr)
+
+
 def run_MP(conn : Pipe):
     mp = MP()
     while True:
@@ -45,6 +58,7 @@ def run_HI(conn : Pipe):
     while True:
         data = conn.recv()
         if data is not None:
+            data = array_to_str(data)
             hi.send(data)
             conn.send(hi.recv())
 
